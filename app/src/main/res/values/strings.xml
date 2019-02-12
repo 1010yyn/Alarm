@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Alarm</string>
     <string name="app_name_cn">闹钟</string>
+    <string name="alarm_agenda">日程</string>
     <string name="set_new">设定新闹钟</string>
     <string name="stop">停止</string>
     <string name="list_alarm">闹钟列表</string>
