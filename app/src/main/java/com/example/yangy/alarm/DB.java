@@ -17,8 +17,6 @@ public class DB extends SQLiteOpenHelper {
     private static final String Database = "database";
     String c1 = "create table alarm1 (hour_id integer,minute integer,Mon integer,Tue integer,Wed integer,Thur integer,Fri integer,Sat integer,Sun integer)";//序号，时分，重复时间
     String c2 = "create table alarm2 (month_id integer,date integer,hour integer,minute integer)";//序号，月日时分
-    String c3 = "insert into alarm2 (month_id,date,hour,minute) values (2,12,13,12)";
-    String c4 = "insert into alarm2 (month_id,date,hour,minute) values (2,12,12,12)";
 
     public DB(Context context) {
         super(context, Database, null, VERSION);
@@ -37,8 +35,6 @@ public class DB extends SQLiteOpenHelper {
                 Log.i(TAG, "创建表项");
                 DB.execSQL(c1);//表1
                 DB.execSQL(c2);//表2
-//                DB.execSQL(c3);//表2加入数据
-//                DB.execSQL(c4);//表2加入数据
                 Log.i(TAG, "创建成功");
             } catch (Exception e1) {
                 Log.e(TAG, e.getMessage());
@@ -47,6 +43,38 @@ public class DB extends SQLiteOpenHelper {
         }
         Log.i(TAG, "返回");
         return DB;//返回一个可读写的数据库对象
+    }
+
+    //添加数据
+    public void add(int table, int month, int date, int hour, int minute, int mon, int tue, int wed, int thur, int fri, int sat, int sun) {
+        String s1 = "insert into alarm1 (hour_id ,minute ,Mon ,Tue ,Wed ,Thur ,Fri ,Sat ,Sun ) values (" + hour + "," + minute + "," + mon + "," + tue + "," + wed + "," + thur + "," + fri + "," + sat + "," + sun + ")";
+        String s2 = "insert into alarm2 (month_id,date,hour,minute) values (" + month + "," + date + "," + hour + "," + minute + ")";
+        try {
+            if (table == 1)
+                DB.execSQL(s1);//表1插入数据
+            else if (table == 2)
+                DB.execSQL(s2);//表2插入数据
+            Log.i(TAG, "插入新闹钟数据");
+        } catch (Exception e) {
+            Log.i(TAG, "数据插入失败");
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    //删除数据
+    public void delete(int table, int month, int date, int hour, int minute, int mon, int tue, int wed, int thur, int fri, int sat, int sun) {
+        String s1 = "delete from alarm1 where hour_id=" + hour + " minute=" + minute + " Mon=" + mon + " Tue=" + tue + " Wed=" + wed + " Thur=" + thur + " Fri=" + fri + " Sat=" + sat + " Sun=" + sun;
+        String s2 = "delete from alarm2 where month_id=" + month + " and date=" + date + " and hour=" + hour + " and minute=" + minute;
+        try {
+            if (table == 1)
+                DB.execSQL(s1);
+            else if (table == 2)
+                DB.execSQL(s2);
+            Log.i(TAG, "数据库删除成功");
+        } catch (Exception e) {
+            Log.e(TAG, "数据库删除失败");
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     @Override
